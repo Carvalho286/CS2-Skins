@@ -15,3 +15,21 @@
 
 - Currency Conversion:
     - USD to EUR conversion is handled using an external API with proper error handling.
+
+### 17/04/2025
+
+- **New Endpoints**:
+    1. `/item-data`: Retrieves detailed information about a specific CS2 skin, including minimum price, maximum price, sales data, and rarity.
+    2. `/all-items`: Fetches all market items for CS2 and stores them locally for further processing (useful for caching and matching skin names).
+    
+- **Response Models**:
+    - `ItemResponse`: Represents detailed skin information, including minimum and maximum prices, sales data, and rarity.
+
+- **Caching**:
+    - Extended caching functionality to include the new `/item-data` and `/all-items` endpoints, improving performance and reducing repeated API calls.
+
+- **Fuzzy Name Matching**:
+    - Fuzzy matching logic has been applied to improve search accuracy, filtering and matching skin names with higher precision.
+
+- **Error Handling**:
+    - Enhanced error handling with specific exceptions (`ExternalAPIError`, `DataProcessingError`, `InternalServerError`) for new endpoints.
