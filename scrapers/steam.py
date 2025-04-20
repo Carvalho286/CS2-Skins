@@ -10,13 +10,28 @@ cache = TTLCache(maxsize=100, ttl=300) # Cache for 5 minutes
 def load_known_skin_names(file_path):
     try:
         with open(file_path, "r", encoding="utf-8") as file:
-            data = json.load(file)
-            return [skin["marketname"] for skin in data]
+            return json.load(file)  # Já é uma lista de strings
     except Exception as e:
         print(f"Error loading skin names: {e}")
         return []
 
-known_skin_names = load_known_skin_names("marked_names.json")
+known_skin_names = load_known_skin_names("market_names.json")
+
+def expand_wear_condition(name: str) -> str:
+    wear_map = {
+        " ft": " field-tested",
+        " mw": " minimal wear",
+        " fn": " factory new",
+        " bs": " battle-scarred",
+        " ww": " well-worn",
+        " st": " StatTrak™"
+    }
+
+    name_lower = name.lower()
+    for short, full in wear_map.items():
+        if short in name_lower:
+            name_lower = name_lower.replace(short, full)
+    return name_lower
 
 def get_steam_data():
     try:
@@ -31,6 +46,7 @@ def get_steam_data():
         raise ExternalAPIError(str(e)) 
 
 def search_by_name(name, start, count, currency, sort_by, order):
+    name = expand_wear_condition(name)
     cache_key = f"{name}_{start}_{count}_{currency}"
     if cache_key in cache:
         return cache[cache_key]
