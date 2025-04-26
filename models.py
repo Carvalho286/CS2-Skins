@@ -62,11 +62,16 @@ class UserInDB(BaseModel):
         }
 
 class UserResponse(BaseModel):
-    id: str  # id should be a string to represent the ObjectId
+    id: str
     email: str
     username: str
-    favorites: List[str]  # Assuming favorites is a list of strings
-    alerts: Optional[List[str]] = []  # Optional field with default empty list
+    favorites: List[str]
+    alerts: Optional[List[str]] = [] 
 
     class Config:
-        orm_mode = True
+        from_attributes = True
+
+class Alert(BaseModel):
+    skin_name: str
+    price_threshold: float
+    currency: str

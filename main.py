@@ -5,7 +5,7 @@ from scrapers.steamweb import *
 from models import SearchData, SearchResponse, ItemResponse
 from typing import List, Optional
 from exceptions import ExternalAPIError, DataProcessingError, InternalServerError
-from routers import auth, favorites
+from routers import auth, favorites, alerts
 
 app = FastAPI(
     title="SkinPeek API",
@@ -23,6 +23,7 @@ app.add_middleware(
 
 app.include_router(auth.router)
 app.include_router(favorites.router)
+app.include_router(alerts.router)
 
 @app.get("/steam-data")
 async def steam_data():

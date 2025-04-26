@@ -13,7 +13,6 @@ users = db.users
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
-# Get the current user (as we did above)
 def get_current_user(token: str = Depends(oauth2_scheme)) -> UserResponse:
     payload = verify_access_token(token)
     user_id = payload.get("sub")
